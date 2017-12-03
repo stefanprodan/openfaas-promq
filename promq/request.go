@@ -3,9 +3,10 @@ package function
 import (
 	"encoding/json"
 	"errors"
-	"github.com/ymotongpoo/datemaki"
 	"os"
 	"time"
+
+	"github.com/ymotongpoo/datemaki"
 )
 
 type Request struct {
@@ -24,6 +25,9 @@ func NewRequest(data []byte) (*Request, error) {
 	}
 
 	promURL := os.Getenv("PROMETHEUS_URL")
+	if promURL == "" {
+		promURL = "http://prometheus.openfaas:9090"
+	}
 	if r.Server == "" && len(promURL) > 0 {
 		r.Server = promURL
 	}
@@ -63,4 +67,6 @@ func (r *Request) GetQueryRange() (start time.Time, end time.Time, step time.Dur
 	if step, err = time.ParseDuration(r.Step); err != nil {
 		return
 	}
+
+	return
 }
