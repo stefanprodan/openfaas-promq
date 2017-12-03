@@ -3,7 +3,9 @@ package function
 import (
 	"encoding/json"
 	"errors"
+	"github.com/ymotongpoo/datemaki"
 	"os"
+	"time"
 )
 
 type Request struct {
@@ -47,4 +49,18 @@ func NewRequest(data []byte) (*Request, error) {
 	}
 
 	return r, nil
+}
+
+func (r *Request) GetQueryRange() (start time.Time, end time.Time, step time.Duration, err error) {
+	if start, err = datemaki.Parse(r.Start); err != nil {
+		return
+	}
+
+	if end, err = datemaki.Parse(r.End); err != nil {
+		return
+	}
+
+	if step, err = time.ParseDuration(r.Step); err != nil {
+		return
+	}
 }
