@@ -52,6 +52,9 @@ func NewRequest(data []byte) (*Request, error) {
 		r.Step = "1m"
 	}
 
+	if r.Format != "table" && r.Format != "json" {
+		r.Format = "table"
+	}
 	return r, nil
 }
 
