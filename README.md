@@ -17,13 +17,13 @@ Invoke:
 ```bash
 $ echo -n '{"server": "http://prometheus.openfaas:9090", "query": "sum(increase(gateway_function_invocation_total[1h]))  by (function_name)", "start": "5 hours ago", "end": "now", "step": "1h","format": "table"}' | faas-cli invoke promq --gateway=<GATEWAY-IP>
 
-       time| function_name:certinfo| function_name:nodeinfo| function_name:promq
- 1512293537|               0.000000|            1001.390821|                    
- 1512297137|               1.001391|            1001.390821|                    
- 1512300737|               0.000000|               0.000000|                    
- 1512304337|               0.000000|               0.000000|                    
- 1512307937|               0.000000|               0.000000|                    
- 1512311537|               3.004172|               3.004172|           13.148504
+       time| function_name:certinfo| function_name:nodeinfo
+ 1512293537|               0.000000|            1001.390821
+ 1512297137|               1.001391|            1001.390821
+ 1512300737|               0.000000|               0.000000
+ 1512304337|               0.000000|               9.000000
+ 1512307937|               2.000000|               0.000000
+ 1512311537|               3.004172|               3.004172
 ```
 
 Parameters:
