@@ -1,9 +1,12 @@
 package function
 
 import (
-	"github.com/ymotongpoo/datemaki"
+	"fmt"
+	"regexp"
 	"testing"
 	"time"
+
+	"github.com/ymotongpoo/datemaki"
 )
 
 func TestRequestDefaults(t *testing.T) {
@@ -59,5 +62,16 @@ func TestRequestQueryRange(t *testing.T) {
 	expectedStep, _ := time.ParseDuration("15s")
 	if step != expectedStep {
 		t.Fatalf("\nExpected: \n%v\nGot: \n%v", expectedStep, step)
+	}
+}
+
+func TestHandlerWithRemoteProm(t *testing.T) {
+	var json = []byte(`{"server": "http://localhost:9090", "query": "sum(up) by (job)"}`)
+	expected := "prometheus"
+	resp := Handle(json)
+	fmt.Printf(resp)
+	r := regexp.MustCompile("(?m:" + expected + ")")
+	if !r.MatchString(resp) {
+		t.Fatalf("\nExpected: \n%v\nGot: \n%v", expected, resp)
 	}
 }
