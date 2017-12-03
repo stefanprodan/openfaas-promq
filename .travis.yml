@@ -1,0 +1,28 @@
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  - sudo apt-get update
+  - sudo apt-get -y install docker-ce
+  - sudo service docker restart
+  - sleep 1
+  - docker network create test
+  - docker run -dp 9090:9090 --network test --name prometheus prom/prometheus:v1.8.2
+  - curl -sL cli.openfaas.com | sudo sh
+
+script:
+  - faas-cli build -f promq.yml
+  - docker run -dp 8080:8080 --network test --name promq stefanprodan/openfaas-promq
+  - sleep 5
+  - |
+    curl -d '{"server": "http://prometheus:9090", "query": "sum(up) by (job)"}' localhost:8080 | grep prometheus
+
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker login -u "$DOCKER_USER" -p "$DOCKER_PASS";
+    faas-cli push -f promq.yml;
+    fi
