@@ -4,7 +4,7 @@ OpenFaaS function that executes Prometheus queries
 
 ### Usage
 
-![OpenFaaS](https://github.com/stefanprodan/openfaas-promq/blob/master/screens/invoke-ui.jpg)
+![OpenFaaS](https://github.com/stefanprodan/openfaas-promq/blob/master/screens/invoke-ui.png)
 
 Deploy:
 
