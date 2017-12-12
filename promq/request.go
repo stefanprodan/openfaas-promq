@@ -20,8 +20,10 @@ type Request struct {
 
 func NewRequest(data []byte) (*Request, error) {
 	r := &Request{}
+
 	if err := json.Unmarshal(data, r); err != nil {
-		return nil, err
+		// not json, use input as raw PromQL string
+		r.Query = string(data)
 	}
 
 	promURL := os.Getenv("PROMETHEUS_URL")
