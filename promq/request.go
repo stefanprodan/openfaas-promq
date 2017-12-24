@@ -3,6 +3,7 @@ package function
 import (
 	"encoding/json"
 	"errors"
+	"net"
 	"os"
 	"time"
 
@@ -28,7 +29,12 @@ func NewRequest(data []byte) (*Request, error) {
 
 	promURL := os.Getenv("PROMETHEUS_URL")
 	if promURL == "" {
-		promURL = "http://prometheus.openfaas:9090"
+		_, err := net.LookupIP("prometheus")
+		if err != nil {
+			promURL = "http://prometheus.openfaas:9090"
+		} else {
+			promURL = "http://prometheus:9000"
+		}
 	}
 	if r.Server == "" && len(promURL) > 0 {
 		r.Server = promURL
