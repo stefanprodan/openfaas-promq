@@ -33,7 +33,7 @@ func NewRequest(data []byte) (*Request, error) {
 		if err != nil {
 			promURL = "http://prometheus.openfaas:9090"
 		} else {
-			promURL = "http://prometheus:9000"
+			promURL = "http://prometheus:9090"
 		}
 	}
 	if r.Server == "" && len(promURL) > 0 {
