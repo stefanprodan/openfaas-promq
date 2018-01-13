@@ -1,5 +1,7 @@
 # openfaas-promq
 
+[![Build Status](https://travis-ci.org/stefanprodan/openfaas-promq.svg?branch=master)](https://travis-ci.org/stefanprodan/openfaas-promq)
+
 OpenFaaS function that executes Prometheus queries
 
 ### Usage
